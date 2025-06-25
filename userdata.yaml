@@ -20,22 +20,15 @@ chpasswd:
 ssh_pwauth: true
 
 network:
-  version: 1
-  config:
-  - type: physical
-    name: eth0
-    subnets:
-      - type: static
-        address: 172.26.4.179/20
-        gateway: 172.26.4.1
-        dns_nameservers:
-          - 1.1.1.1
-        dns_search:
-          - vmtlw.ru
+  version: 2
+  ethernets:
+    eth0:
+      addresses:
+        - 172.26.4.179/20
+      routes:
+        - to: default
+          via: 172.26.4.1
 
-runcmd:
-  # disable dhcp for eth0
-  - [ sh, -c, sed -e '/iface eth0 inet dhcp/s/^/#/g' -i /etc/network/interfaces ]
 
 power_state:
  delay: "+2" # minutes
