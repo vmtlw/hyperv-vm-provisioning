@@ -38,8 +38,3 @@ write_files:
 runcmd:
   - netplan apply
 
-power_state:
- delay: "+2" # minutes
- mode: reboot
- message: rebooting system after cloud-init configurations are finished
- timeout: 120 # seconds
