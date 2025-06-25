@@ -1,0 +1,44 @@
+#cloud-config
+
+hostname: my-host
+fqdn: my-host.local
+
+locale: ru_RU.UTF-8
+timezone: Europe/Moscow
+
+users:
+  - name: root
+    no_user_group: true
+    lock_passwd: false
+    plain_text_passwd: root
+    lock_passwd: false
+    shell: /bin/bash
+
+chpasswd:
+  expire: false
+
+ssh_pwauth: true
+
+network:
+  version: 1
+  config:
+  - type: physical
+    name: eth0
+    subnets:
+      - type: static
+        address: 172.26.4.179/20
+        gateway: 172.26.4.1
+        dns_nameservers:
+          - 1.1.1.1
+        dns_search:
+          - vmtlw.ru
+
+runcmd:
+  # disable dhcp for eth0
+  - [ sh, -c, sed -e '/iface eth0 inet dhcp/s/^/#/g' -i /etc/network/interfaces ]
+
+power_state:
+ delay: "+2" # minutes
+ mode: reboot
+ message: rebooting system after cloud-init configurations are finished
+ timeout: 120 # seconds
