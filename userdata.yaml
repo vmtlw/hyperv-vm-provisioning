@@ -19,16 +19,24 @@ chpasswd:
 
 ssh_pwauth: true
 
-network:
-  version: 2
-  ethernets:
-    eth0:
-      addresses:
-        - 172.26.4.179/20
-      routes:
-        - to: default
-          via: 172.26.4.1
+write_files:
+  - path: /etc/netplan/50-static.yaml
+    content: |
+      network:
+        version: 2
+        ethernets:
+          eth0:
+            dhcp4: false
+            addresses:
+              - 172.26.4.179/20
+            routes:
+              - to: default
+                via: 172.26.4.1
+    owner: root:root
+    permissions: '0644'
 
+runcmd:
+  - netplan apply
 
 power_state:
  delay: "+2" # minutes
