@@ -33,7 +33,7 @@ write_files:
               - to: default
                 via: 172.26.4.1
     owner: root:root
-    permissions: '0644'
+    permissions: '0600'
 
 runcmd:
   - netplan apply
